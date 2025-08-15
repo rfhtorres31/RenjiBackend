@@ -13,13 +13,13 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
+    public string Password { get; set; } = null!;
+
     public DateTime UpdatedAt { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
-    public string Password { get; set; } = null!;
+    public int DepartmentId { get; set; }
 
-    public int? DepartmentId { get; set; }
-
-    public virtual Department? Department { get; set; }
+    public virtual ICollection<IncidentReport> IncidentReports { get; set; } = new List<IncidentReport>();
 }

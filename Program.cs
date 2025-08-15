@@ -4,7 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using renjibackend.Data;
 using renjibackend.Services;
 using renjibackend.Utility;
+using System.Diagnostics;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args); // imports web app framework
 
@@ -25,7 +27,9 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<RenjiDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .EnableSensitiveDataLogging() 
+           .LogTo(Console.WriteLine, LogLevel.Information));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -50,7 +50,7 @@ namespace renjibackend.APIControllers
 
                 int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "");
                 string accidentTypeName = await db.Accidents.Where(u => u.Id == report.AccidentTypeId).Select(n => n.Name).FirstOrDefaultAsync() ?? "";
-                int departmentId = await db.Users.Where(u => u.Id == userID).Select(n => n.DepartmentId).FirstOrDefaultAsync() ?? 0;
+                int departmentId = await db.Users.Where(u => u.Id == userID).Select(n => n.DepartmentId).FirstOrDefaultAsync();
 
                 Debug.WriteLine(accidentTypeName);
                 var newReport = new IncidentReport
@@ -109,9 +109,17 @@ namespace renjibackend.APIControllers
                          n.Status == 30 ? "Resolved" : ""
             }).ToListAsync();
 
+            int noOfOpenReports = await db.IncidentReports.Where(u => u.Status == 10).CountAsync();
+            int noOfInProgressReports = await db.IncidentReports.Where(u => u.Status == 20).CountAsync();
+            int noOfResolvedReports = await db.IncidentReports.Where(u => u.Status == 30).CountAsync();
+
+            Debug.WriteLine(noOfOpenReports);
+
+            var reportCounts = new { open = noOfOpenReports, inProgress = noOfInProgressReports, resolved = noOfResolvedReports };
+
             response.success = true;
             response.message = "Success";
-            response.details = new { data = reports };
+            response.details = new { data = reports, reportCounts };
 
             return Ok(response);
         }
@@ -185,7 +193,6 @@ namespace renjibackend.APIControllers
                     g => g.Key,
                     g => g.Select(x => new { x = x.ReportHour, y = x.TotalIncidents }).ToList()
                 );
-
 
             response.success = true;
             response.message = "Success";
