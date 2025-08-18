@@ -13,8 +13,6 @@ public partial class ActionPlan
 
     public string ActionDetail { get; set; } = null!;
 
-    public string AssignedTo { get; set; } = null!;
-
     public DateTime DueDate { get; set; }
 
     public int Status { get; set; }
@@ -22,6 +20,10 @@ public partial class ActionPlan
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
+
+    public int? Priority { get; set; }
+
+    public int? ActionType { get; set; }
 
     public virtual ICollection<IncidentReport> IncidentReports { get; set; } = new List<IncidentReport>();
 

@@ -9,8 +9,6 @@ public partial class MaintenanceTeam
 
     public string Name { get; set; } = null!;
 
-    public string? ContactPerson { get; set; }
-
     public string? ContactNumber { get; set; }
 
     public string? Email { get; set; }

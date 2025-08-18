@@ -50,7 +50,6 @@ public partial class RenjiDbContext : DbContext
             entity.ToTable("ActionPlan");
 
             entity.Property(e => e.ActionDetail).HasMaxLength(500);
-            entity.Property(e => e.AssignedTo).HasMaxLength(255);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -119,9 +118,6 @@ public partial class RenjiDbContext : DbContext
 
             entity.Property(e => e.ContactNumber)
                 .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.ContactPerson)
-                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")

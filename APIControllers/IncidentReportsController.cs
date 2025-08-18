@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 
 
@@ -201,5 +202,60 @@ namespace renjibackend.APIControllers
             return Ok(response);
         }
 
-    }
+
+
+        [HttpPost("actionplan")]
+        public async Task<IActionResult> PostActionPlan([FromBody] NewActionPlan.ActionPlanDto actionPlan)
+        {  
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    response.success = false;
+                    response.message = "Model State is Invalid";
+                    response.details = ModelState;
+                    return BadRequest(response);
+                }
+
+                var newActionPlan = new ActionPlan
+                {
+                    IncidentReportId = actionPlan.IncidentReportID,
+                    ActionDetail = actionPlan.Form.ActionDescription,
+                    MaintenanceStaffId = actionPlan.Form.PersonInCharge,
+                    DueDate = actionPlan.Form.TargetDate,
+                    ActionType = actionPlan.Form.ActionTypes,
+                    Priority = actionPlan.Form.Priority,
+                    Status = 10, // 10 - In Progress, 20 - Resolved
+                };
+
+                db.ActionPlans.Add(newActionPlan);
+                
+
+                var incidentReportRecord = await db.IncidentReports.Where(u => u.Id == actionPlan.IncidentReportID).FirstOrDefaultAsync();
+                
+                if (incidentReportRecord != null)
+                {
+                    incidentReportRecord.Status = 20; // Change status to In Progress
+                }
+
+                await db.SaveChangesAsync();
+
+                response.success = true;
+                response.message = "Action Plan Added Successfully";
+
+                return Ok(response);
+
+            }
+            catch (Exception err)
+            {
+                response.success = false;
+                response.message = "Internal Server Error";
+                response.details = err.Message;
+
+                return StatusCode(500, response);
+            }
+            
+        }
+      }
 }

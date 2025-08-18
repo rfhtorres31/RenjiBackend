@@ -51,6 +51,22 @@
   },
   {
     "ContainingType": "renjibackend.APIControllers.IncidentReportsController",
+    "Method": "PostActionPlan",
+    "RelativePath": "api/reports/actionplan",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "actionPlan",
+        "Type": "renjibackend.DTO.NewActionPlan\u002BActionPlanDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "renjibackend.APIControllers.IncidentReportsController",
     "Method": "GetReports",
     "RelativePath": "api/reports/get",
     "HttpMethod": "GET",
