@@ -50,7 +50,10 @@ builder.Services.AddScoped<RenjiDbContext>();
 builder.Services.AddScoped<TokenGenerator>();
 
 // Register Services (Dependency Injection)
-builder.Services.AddControllers(); // Enables attribute based controllers also the body parsing for API Controllers
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+}); // Enables attribute based controllers also the body parsing for API Controllers
 
 var app = builder.Build();
 

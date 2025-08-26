@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_3",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_4",
     "RelativePath": "",
     "HttpMethod": "GET",
     "IsController": false,
@@ -16,6 +16,32 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "renjibackend.APIControllers.ActionPlanController",
+    "Method": "GetActionPlan",
+    "RelativePath": "api/actionplan/get",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "renjibackend.APIControllers.ActionPlanController",
+    "Method": "PostActionPlan",
+    "RelativePath": "api/actionplan/post",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "actionPlan",
+        "Type": "renjibackend.DTO.NewActionPlan\u002BActionPlanDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "renjibackend.APIControllers.AuthController",
@@ -44,22 +70,6 @@
       {
         "Name": "request",
         "Type": "renjibackend.DTO.RegisterRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "renjibackend.APIControllers.IncidentReportsController",
-    "Method": "PostActionPlan",
-    "RelativePath": "api/reports/actionplan",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "actionPlan",
-        "Type": "renjibackend.DTO.NewActionPlan\u002BActionPlanDto",
         "IsRequired": true
       }
     ],
