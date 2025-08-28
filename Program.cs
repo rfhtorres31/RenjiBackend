@@ -6,7 +6,8 @@ using renjibackend.Services;
 using renjibackend.Utility;
 using System.Diagnostics;
 using System.Text;
-
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 var builder = WebApplication.CreateBuilder(args); // imports web app framework
 
@@ -41,7 +42,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])
             ),
             ValidateIssuer = false,
-            ValidateAudience = false
+            ValidateAudience = false,
+
+            ValidateLifetime = true,           // make sure token expiration is checked
+            ClockSkew = TimeSpan.Zero          // remove the default 5 min grace period
         };
     });
 

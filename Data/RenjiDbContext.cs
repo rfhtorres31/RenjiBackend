@@ -50,6 +50,7 @@ public partial class RenjiDbContext : DbContext
             entity.ToTable("ActionPlan");
 
             entity.Property(e => e.ActionDetail).HasMaxLength(500);
+            entity.Property(e => e.CompletedDate).HasColumnType("datetime");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");

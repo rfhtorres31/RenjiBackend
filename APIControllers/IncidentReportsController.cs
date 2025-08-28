@@ -89,10 +89,21 @@ namespace renjibackend.APIControllers
         }
 
         [HttpGet("get")]
+        [Authorize]
         public async Task<IActionResult> GetReports(int userID)
         {
+            var expClaim = User.FindFirst(JwtRegisteredClaimNames.Exp)?.Value;
 
-            Debug.WriteLine(userID);
+
+            if (expClaim != null && long.TryParse(expClaim, out long expUnix))
+            {
+               var expDate = DateTimeOffset.FromUnixTimeSeconds(expUnix).UtcDateTime;
+                var remaining = expDate - DateTime.UtcNow;
+
+                Debug.WriteLine($"Token expires at: {expDate} UTC");
+                Debug.WriteLine($"Time left: {remaining.TotalMinutes} minutes ({remaining.TotalSeconds} seconds)");
+            }
+
             if (userID == 0)
             {
                 response.success = false;

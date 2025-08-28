@@ -29,6 +29,26 @@
   },
   {
     "ContainingType": "renjibackend.APIControllers.ActionPlanController",
+    "Method": "GetActionPlanChart",
+    "RelativePath": "api/actionplan/get/chart",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "renjibackend.APIControllers.ActionPlanController",
+    "Method": "GetActionPlanKPI",
+    "RelativePath": "api/actionplan/get/kpi",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "renjibackend.APIControllers.ActionPlanController",
     "Method": "PostActionPlan",
     "RelativePath": "api/actionplan/post",
     "HttpMethod": "POST",
@@ -38,6 +58,32 @@
       {
         "Name": "actionPlan",
         "Type": "renjibackend.DTO.NewActionPlan\u002BActionPlanDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "renjibackend.APIControllers.ActionPlanController",
+    "Method": "PutActionPlan",
+    "RelativePath": "api/actionplan/put",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "actionID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "incidentReportID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "updateData",
+        "Type": "renjibackend.DTO.UpdateActionPlanDto",
         "IsRequired": true
       }
     ],
