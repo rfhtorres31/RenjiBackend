@@ -311,13 +311,49 @@ namespace renjibackend.APIControllers
 
             double[] donutChartArray = { percentageCompletedPlans, percentagePendingPlans };
 
-           //======================================================================================================//
+            //======================================================================================================//
 
+
+            //======================= For Bar Chart ==========================//
+
+            var aggregagatedReport1 = (from ap in db.ActionPlans
+                                     join mt in db.MaintenanceTeams
+                                     on ap.MaintenanceStaffId equals mt.Id
+                                     group ap by mt.Name into g
+                                     select new
+                                     {
+                                        x = g.Count(),
+                                        y = g.Key,
+                                     }).ToArray();
+
+
+
+            var xLabel = aggregagatedReport1.Select(n => n.x).ToArray();
+            var yLabel = aggregagatedReport1.Select(n => n.y).ToArray();
+
+            //================================================================//
+
+            // =================== Line Chart ============================= //
+
+            var completedOverTime = db.ActionPlans
+                .Where(a => a.CompletedDate != null && a.Status == 30)
+                .GroupBy(a => a.CompletedDate.Value.Date)
+                .Select(g => new { date = g.Key, completed = g.Count() })
+                .OrderBy(m => m.date);
+
+            var pendingOverTime = db.ActionPlans
+                .Where(a => a.CompletedDate == null && a.Status != 30)
+                .GroupBy(a => a.DueDate.Date)
+                .Select(g => new { date = g.Key, pending = g.Count() })
+                .OrderBy(m => m.date); 
+
+
+            // ============================================================= //
 
 
             response.success = true;
             response.message = "Ok";
-            response.details = new { donutChart = donutChartArray };
+            response.details = new { donutChart = donutChartArray, barChart = new { xLabel = xLabel, yLabel = yLabel }, lineChart = new { completedOverTime = completedOverTime, pendingOverTime = pendingOverTime } };
 
             return Ok(response);
         }
