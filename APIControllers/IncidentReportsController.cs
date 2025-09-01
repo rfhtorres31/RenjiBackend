@@ -27,10 +27,12 @@ namespace renjibackend.APIControllers
 
         private readonly RenjiDbContext db;
         private Response response = new Response();
+        private readonly Caching cache;
 
-        public IncidentReportsController(RenjiDbContext _db)
+        public IncidentReportsController(RenjiDbContext _db, Caching _cache)
         {
             this.db = _db;
+            this.cache = _cache;
         }
 
 
@@ -140,32 +142,11 @@ namespace renjibackend.APIControllers
         [HttpGet("summaryreports-1")]
         public async Task<IActionResult> GetSummaryReports_1()
         {
-            var query1 = from ir in db.IncidentReports
-                         join a in db.Accidents
-                         on ir.AccidentId equals a.Id
-                         group ir by a.Name into g
-                         select new
-                          {
-                              y = g.Key, // Accident Types
-                              x = g.Count() // Total per Accident Types
-                          };
 
-            var result1 = await query1.OrderByDescending(x => x.y).ToListAsync();
 
-            var totalCount = db.IncidentReports.Count();
+            var result1 = await cache.GetSummaryReportsBarChart_1Cached();
 
-            var query2 = from ir in db.IncidentReports
-                         join a in db.Accidents
-                         on ir.AccidentId equals a.Id
-                         group ir by a.Name into g
-                         select new
-                         {
-                             label = g.Key, // Accident Type
-                             value = g.Count(),
-                             percentage = ((double)g.Count() / totalCount * 100).ToString("0.0") + "%"
-                         };
-
-            var result2 = await query2.ToListAsync();
+            var result2 = await cache.GetSummaryReportsPieChart_2Cached();
 
             response.success = true;
             response.message = "Success";

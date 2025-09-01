@@ -49,15 +49,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+
 builder.Services.AddScoped<PasswordHashing>();
-builder.Services.AddScoped<RenjiDbContext>();
 builder.Services.AddScoped<TokenGenerator>();
+builder.Services.AddScoped<Caching>();
+builder.Services.AddMemoryCache();
+
 
 // Register Services (Dependency Injection)
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 }); // Enables attribute based controllers also the body parsing for API Controllers
+
 
 var app = builder.Build();
 
